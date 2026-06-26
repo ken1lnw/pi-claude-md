@@ -8,6 +8,7 @@
 
 | ชื่อ | คำอธิบาย | Tags | Author | Status | อัปเดตล่าสุด |
 |------|----------|------|--------|--------|-------------|
+| [Create Guide](./skills/create-guide/SKILL.md) | สร้างคู่มือ HTML แบบ standalone สำหรับโมดูล | `documentation` `guide` `html` `capture` `bilingual` | Anthropic | ✅ stable | 2025-06-26 |
 | [Example Skill](./skills/example-skill/SKILL.md) | ตัวอย่าง skill template | `example` `template` | your-name | ✅ stable | 2025-01-01 |
 
 ---
@@ -33,6 +34,11 @@
 
 | Tag | Skills / Plugins |
 |-----|-----------------|
+| `documentation` | [Create Guide](./skills/create-guide/SKILL.md) |
+| `guide` | [Create Guide](./skills/create-guide/SKILL.md) |
+| `html` | [Create Guide](./skills/create-guide/SKILL.md) |
+| `capture` | [Create Guide](./skills/create-guide/SKILL.md) |
+| `bilingual` | [Create Guide](./skills/create-guide/SKILL.md) |
 | `example` | [Example Skill](./skills/example-skill/SKILL.md), [Example Plugin](./plugins/example-plugin/README.md) |
 | `template` | [Example Skill](./skills/example-skill/SKILL.md), [Example Plugin](./plugins/example-plugin/README.md) |
 
@@ -42,9 +48,9 @@
 
 | | จำนวน |
 |-|-------|
-| Skills ทั้งหมด | 1 |
+| Skills ทั้งหมด | 2 |
 | Plugins ทั้งหมด | 1 |
-| Contributors | 1 |
+| Contributors | 2 |
 
 ---
 
