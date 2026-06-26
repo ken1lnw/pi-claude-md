@@ -11,16 +11,13 @@ status: stable
 # Example Skill
 
 ## Description
-นี่คือตัวอย่าง skill — ลบทิ้งหรือแก้ไขได้เลย
+อธิบาย skill นี้ทำอะไร
 
 ## When to Use
-ใช้เป็น template สำหรับสร้าง skill ใหม่
+ใช้เมื่อไหร่
 
 ## Instructions
-1. Copy โฟลเดอร์นี้
-2. เปลี่ยนชื่อโฟลเดอร์เป็นชื่อ skill ของคุณ
-3. แก้ไข SKILL.md ให้ตรงกับ skill ที่ต้องการ
-4. อัปเดต INDEX.md ที่ root
+วิธีใช้งาน step-by-step
 
 ## Example
 Input: ...
