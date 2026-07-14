@@ -39,23 +39,32 @@ git push origin feature/ชื่อ-skill-ของคุณ
 
 ## 🔗 เพิ่ม Skills นี้เข้า Claude Code (Global)
 
-ถ้าต้องการให้ skills ใช้ได้ทุกโปรเจค ไม่ใช่แค่ใน repo นี้:
-
-**วิธีที่ 1 — Import ใน global CLAUDE.md**
+ถ้าต้องการให้ skills ใช้ได้ทุกโปรเจค ไม่ใช่แค่ใน repo นี้ — **symlink ทั้งโฟลเดอร์**:
 
 ```bash
-# เพิ่มบรรทัดนี้ใน ~/.claude/CLAUDE.md
-echo "@~/github/pi-claude-md/CLAUDE.md" >> ~/.claude/CLAUDE.md
+# skill เดียว
+ln -s ~/github/pi-claude-md/skills/<ชื่อ-skill> ~/.claude/skills/<ชื่อ-skill>
+
+# หรือทุกตัวรวดเดียว
+for s in ~/github/pi-claude-md/skills/*/; do
+  ln -sfn "$s" ~/.claude/skills/"$(basename "$s")"
+done
 ```
 
-Claude Code จะโหลด skills จาก repo นี้ในทุก session อัตโนมัติ
+> ⚠️ **ต้อง symlink เป็นโฟลเดอร์** — Claude Code มองหา `~/.claude/skills/<ชื่อ>/SKILL.md`
+> ถ้า symlink เป็นไฟล์เดี่ยว (`~/.claude/skills/<ชื่อ>.md`) **skill จะเงียบไปเลย ไม่โหลดและไม่ error**
 
-**วิธีที่ 2 — Symlink skill เดี่ยวๆ**
+**ตรวจว่าติดตั้งสำเร็จ:** เปิด Claude Code แล้วพิมพ์ `/` — ต้องเห็นชื่อ skill ในลิสต์
 
-```bash
-# ถ้าต้องการแค่ skill ใดก็ตาม
-ln -s ~/github/pi-claude-md/skills/<ชื่อ-skill>/SKILL.md ~/.claude/skills/<ชื่อ-skill>.md
+## 🌍 Skills จากภายนอก (ชุด .NET / Akka / Aspire)
+
+**ห้าม copy ไฟล์ของทีมอื่นเข้า repo นี้** — ติดตั้งผ่าน marketplace แทน (ได้ของใหม่อัตโนมัติ ไม่มีปัญหา license):
+
 ```
+/plugin marketplace add Aaronontheweb/dotnet-skills
+```
+
+รายชื่อ 35 skills + วิธีใช้: [`docs/external-skills.md`](./docs/external-skills.md)
 
 ## 📥 Pull อัปเดตล่าสุด
 
