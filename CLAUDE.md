@@ -17,11 +17,16 @@ claude .
 
 Claude Code จะอ่าน `CLAUDE.md` นี้อัตโนมัติเมื่อเปิดโฟลเดอร์ — ไม่ต้อง install อะไรเพิ่ม
 
-ถ้าต้องการใช้ skill ในโปรเจคอื่น ให้ copy `skills/<ชื่อ>/SKILL.md` ไปไว้ใน `.claude/skills/` ของโปรเจคนั้น หรือ symlink:
+ถ้าต้องการใช้ skill ในทุกโปรเจค ให้ symlink **ทั้งโฟลเดอร์** เข้า `~/.claude/skills/`:
 
 ```bash
-ln -s ~/path/to/pi-claude-md/skills/<ชื่อ>/SKILL.md ~/.claude/skills/<ชื่อ>.md
+ln -s ~/path/to/pi-claude-md/skills/<ชื่อ> ~/.claude/skills/<ชื่อ>
 ```
+
+> ⚠️ **ต้องเป็นโฟลเดอร์เท่านั้น** — Claude Code มองหา `~/.claude/skills/<ชื่อ>/SKILL.md`
+> ถ้า symlink เป็นไฟล์ `.md` เดี่ยว ๆ (`~/.claude/skills/<ชื่อ>.md`) **skill จะไม่ถูกโหลดเลย** และจะไม่มี error บอกด้วย
+
+ตรวจว่าโหลดสำเร็จ: พิมพ์ `/` ใน Claude Code แล้วต้องเห็นชื่อ skill ในลิสต์
 
 ---
 
@@ -35,9 +40,22 @@ pi-claude-md/
 ├── plugins/
 │   └── example-plugin/         ← template สำหรับ plugin ใหม่
 ├── docs/
+│   └── external-skills.md      ← skills ของทีมอื่นที่ติดตั้งผ่าน marketplace
 ├── INDEX.md                    ← master index (ค้นหา skills/plugins)
 └── CLAUDE.md                   ← this file
 ```
+
+---
+
+## Skills จากภายนอก (ไม่เก็บไฟล์ใน repo นี้)
+
+skills ของทีมอื่น (เช่นชุด .NET/Akka/Aspire 35 ตัว) **ห้าม copy ไฟล์เข้ามา** — ติดตั้งผ่าน marketplace แทน:
+
+```
+/plugin marketplace add Aaronontheweb/dotnet-skills
+```
+
+รายชื่อทั้งหมด + เหตุผล: [`docs/external-skills.md`](./docs/external-skills.md)
 
 ---
 
@@ -57,22 +75,33 @@ cp skills/example-skill/SKILL.md skills/<ชื่อ>/SKILL.md
 
 ```markdown
 ---
-name: Skill Name
-author: your-name
-version: 1.0.0
-created: YYYY-MM-DD
-updated: YYYY-MM-DD
-tags: [tag1, tag2]
-status: stable
+name: my-skill-name
+description: อธิบายว่า skill ทำอะไร + ใช้เมื่อไหร่ ให้ครบในบรรทัดเดียว (ไม่เกิน 1024 ตัวอักษร)
+metadata:
+  author: your-name
+  version: 1.0.0
+  created: YYYY-MM-DD
+  updated: YYYY-MM-DD
+  tags: [tag1, tag2]
+  status: stable
 ---
 
-# Skill Name
+# My Skill Name
 
 ## Description
 ## When to Use
 ## Instructions
 ## Example
 ```
+
+**2 field ที่ Claude Code บังคับ — ผิดแล้ว skill ไม่ทำงาน:**
+
+| Field | กติกา | ถ้าผิดจะเป็นยังไง |
+|---|---|---|
+| `name` | **lowercase-kebab-case** และต้องตรงกับชื่อโฟลเดอร์ เช่น `create-guide` | skill ไม่โหลด |
+| `description` | **บังคับ** — Claude ใช้บรรทัดนี้ตัดสินใจว่าจะเรียก skill นี้ไหม ต้องมีคีย์เวิร์ดที่ผู้ใช้จะพิมพ์ | skill โหลดแต่ไม่เคยถูก trigger |
+
+field ที่เหลือ (`author`, `version`, `tags`, `status`) เป็น metadata ของทีมเรา — ต้องอยู่ใต้ `metadata:` ไม่ใช่ระดับบนสุด
 
 ---
 
