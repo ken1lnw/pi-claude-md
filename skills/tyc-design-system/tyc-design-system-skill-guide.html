@@ -301,6 +301,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ <span class="d">reference\</span><br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="f">tokens-and-rules.md</span><br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="new">component-conventions.md</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="new">tailwind-token-audit.md</span><br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="f">theme-ui-guideline.html</span><br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="f">tyc-design-tokens.css</span><br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="f">tyc-design-tokens.json</span><br>
@@ -400,6 +401,7 @@ Copy-Item -Recurse ".\tyc-design-system" "$env:USERPROFILE\.claude\skills\tyc-de
         <tbody>
           <tr><td><code>tokens-and-rules.md</code></td><td>Cheat sheet ค่าสี/radius/spacing/dark-mode แบบย่อ — จุดแรกที่ถูกอ่านเสมอ</td></tr>
           <tr><td><code>component-conventions.md</code></td><td>โครงสร้าง badge สถานะ (พร้อมตารางแปลความหมาย), SVG ไอคอนของปุ่ม action ทุกแบบ (ดู/แก้ไข/ลบ/เพิ่ม/รีเฟรช ฯลฯ), และโครงสร้าง navbar/header ที่ตายตัว (ลำดับปุ่ม, สีพื้นหลัง) — จุดที่ token สีอย่างเดียวไม่พอ ต้องเป๊ะทั้งรูปทรง/โครงสร้างด้วย</td></tr>
+          <tr><td><code>tailwind-token-audit.md</code></td><td><strong>สำคัญสุดสำหรับโปรเจกต์ Tailwind/shadcn</strong> — อธิบายว่าทำไมติดตั้งไฟล์ token แล้ว component เดิม (ปุ่มเปิด/ปิด navbar, card ฯลฯ) ถึงยังไม่เปลี่ยน พร้อมคำสั่ง grep หา class ที่ hardcode สี/มุมโค้งแบบ Tailwind ทั่วไป (เช่น <code>bg-white</code>, <code>bg-blue-600</code>, <code>rounded-xl</code>) และตารางแปลงเป็น class แบบอิง token</td></tr>
           <tr><td><code>theme-ui-guideline.html</code></td><td>Component library ฉบับเต็ม เปิดดูในเบราว์เซอร์ได้ แต่ละ component มีปุ่ม "ดูโค้ด" คัดลอกไปวางได้ทันที</td></tr>
           <tr><td><code>tyc-design-tokens.css</code></td><td>Token แบบ Tailwind v4 (CSS-first) — schema ตรงกับ frontend-mes / rcs-rmr-pm / wms</td></tr>
           <tr><td><code>tyc-design-tokens.json</code></td><td>Token แบบ W3C JSON — ใช้กับโปรเจกต์ที่ไม่ใช่ Tailwind</td></tr>
@@ -447,6 +449,10 @@ Copy-Item -Recurse ".\tyc-design-system" "$env:USERPROFILE\.claude\skills\tyc-de
       <div class="faq-item">
         <div class="faq-q"><span class="q-mark">?</span>อยากเพิ่ม component ใหม่เข้า design system ต้องทำยังไง</div>
         <p class="faq-a">ใช้โหมด <code>extend</code> — บอก Claude ว่าต้องการเพิ่มอะไรเข้า TYC design system ระบบจะเพิ่มเข้าไฟล์ต้นฉบับตามรูปแบบเดิม (การ์ด + โค้ดตัวอย่าง) ตรวจสอบสีถ้ามีการเพิ่มสีใหม่ แล้ว sync กลับเข้า skill ให้เอง</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="q-mark">?</span>ติดตั้ง tyc-design-tokens.css แล้ว แต่ปุ่มเปิด/ปิด navbar กับ card เดิมในระบบยังไม่เปลี่ยนสีเลย ทำไม</div>
+        <p class="faq-a">นี่คือสาเหตุที่พบบ่อยที่สุด — component ที่เขียนด้วย Tailwind class แบบ hardcode สีตรงๆ (เช่น <code>bg-white</code>, <code>bg-blue-600</code>, <code>hover:bg-gray-100</code>, <code>rounded-xl</code>) จะ<strong>ไม่รับรู้การเปลี่ยน token เลย</strong> เพราะ class เหล่านี้ไม่ได้ผูกกับตัวแปรสีของระบบตั้งแต่แรก ต้องเปลี่ยนเป็น class แบบอิง token (เช่น <code>bg-card</code>, <code>bg-primary</code>, <code>hover:bg-accent</code>, <code>rounded-md</code>) ก่อน ถึงจะเปลี่ยนสีตามได้จริง — ไฟล์ <code>tailwind-token-audit.md</code> มีคำสั่ง grep หา class เหล่านี้ทั้งโปรเจกต์ให้พร้อมตารางแปลง ให้บอก Claude ให้รันขั้นตอนนี้หลังติดตั้ง token ทุกครั้ง ไม่ใช่แค่ติดตั้งไฟล์แล้วจบ</p>
       </div>
       <div class="faq-item">
         <div class="faq-q"><span class="q-mark">?</span>สั่งปรับ theme แล้ว badge สถานะ ปุ่ม action (ดู/แก้ไข/ลบ) หรือ navbar ยังไม่เหมือนต้นฉบับ ทำไม</div>

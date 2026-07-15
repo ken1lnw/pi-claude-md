@@ -41,12 +41,21 @@ means either a wasted full reskin or an under-delivered partial one.
 1. Inventory the target project first: existing global CSS/tokens file,
    component library in use (shadcn/ui? custom?), whether dark mode already
    exists. Don't reskin blind.
-2. Work through every module listed under `partial` below, in order —
+2. Install/align the token file (§ 2.4). **Then — before touching
+   individual components — read `reference/tailwind-token-audit.md` and run
+   its grep audit if the project is Tailwind/shadcn.** Installing the token
+   file alone does not reskin components that use hardcoded Tailwind
+   palette utilities (`bg-white`, `bg-gray-100`, `bg-blue-600`, `rounded-xl`,
+   etc.) — this step is what actually makes existing components (navbar
+   toggle, cards, anything not freshly built from this skill) pick up the
+   new theme. Skipping it is the single most common reason a "full" reskin
+   still leaves parts of the UI looking untouched.
+3. Work through every module listed under `partial` below, in order —
    tokens first (everything else depends on them), then components.
-3. If the project's existing pattern for something conflicts with this
+4. If the project's existing pattern for something conflicts with this
    theme (see § 4), stop and ask before overwriting, rather than silently
    reskinning past a real prior product decision.
-4. Run the § 5 checklist before reporting done.
+5. Run the § 5 checklist before reporting done.
 
 ### `partial` — apply named module(s) only
 
@@ -77,6 +86,13 @@ Rules for this mode:
   requested component module needs a token the target project doesn't have
   yet, add the minimum token(s) it needs rather than falling back to a
   hardcoded value.
+- On a Tailwind/shadcn project, any module in **4–9** (Buttons through
+  Overlays) can silently no-op on pre-existing components even after the
+  right classes/tokens exist — run `reference/tailwind-token-audit.md`'s
+  grep audit scoped to that module's components before calling it done, not
+  just for `full` mode. A `partial` request for "Navigation" that doesn't
+  check for hardcoded `hover:bg-gray-100` on the sidebar toggle button is an
+  incomplete partial, not a correctly-scoped one.
 
 ### `extend` — add new theme material to the reference file
 
@@ -132,8 +148,15 @@ token or component pattern.
    inline {...}`, no `tailwind.config.js`) — this is the stack used by
    `frontend-mes`, `rcs-rmr-pm`, and `wms` — match the schema in
    `reference/tyc-design-tokens.css`, don't reinvent the `@theme` block.
+   **Installing this file is not the end of the job — immediately follow
+   with `reference/tailwind-token-audit.md`.** That file's grep-based audit
+   for hardcoded Tailwind palette utilities (`bg-white`, `bg-blue-600`,
+   `rounded-xl`, etc.) is what actually makes pre-existing components adopt
+   the new theme; the token file alone only affects components that already
+   used semantic classes.
 5. For a legacy Tailwind v3 project — use `reference/tailwind.config.js` as
-   the starting config, adjusting only `content` paths.
+   the starting config, adjusting only `content` paths, then run the same
+   `tailwind-token-audit.md` check.
 6. `reference/tyc-design-tokens.json` is the portable W3C-format token file,
    useful if the target isn't a Tailwind/CSS project at all (e.g. a design
    tool import, a non-Tailwind CSS-in-JS setup).
@@ -198,6 +221,9 @@ the `dataviz` skill's color-palette validator):
 - [ ] (`full` mode, or `partial` including Navigation) The navbar/header was
       explicitly checked, not left over from the target project's old
       styling — it's the one component easiest to scroll past.
+- [ ] (Tailwind/shadcn project) Ran the `tailwind-token-audit.md` grep for
+      hardcoded palette utilities — not just installed the token file and
+      assumed existing components inherited it.
 - [ ] (`partial` mode only) You touched only the requested module(s).
 - [ ] (`extend` mode only) The Desktop master file and this skill's
       `reference/` copies are back in sync.
@@ -213,6 +239,7 @@ reskin.
 |---|---|
 | `reference/tokens-and-rules.md` | Fast lookup: hex values, radius/spacing scale, dark-mode overrides, chart palette, the 6 hard rules. Read this first. |
 | `reference/component-conventions.md` | Status badge structure + semantic mapping, the exact icon SVGs for every common action button (view/edit/delete/add/refresh/approve/close), and the navbar/header's fixed structure and action order. Read this before touching any status indicator, icon button, or navbar — token color alone isn't enough for these. |
+| `reference/tailwind-token-audit.md` | **Read this for any Tailwind/shadcn project, `full` mode or not.** Explains why installing the token file alone leaves pre-existing components (navbar toggle, cards, etc.) unchanged, and gives the grep audit + hardcoded-class → semantic-class replacement table that actually fixes it. |
 | `reference/theme-ui-guideline.html` | The full, browsable component library — every component with copy-paste markup in a `.code-preview` block. Open in a browser, or `Grep` for a component name inside it. |
 | `reference/tyc-design-tokens.css` | Tailwind v4 `@theme inline` + `:root`/`.dark` token file — schema-matched to the real Next.js repos' `globals.css`. |
 | `reference/tyc-design-tokens.json` | Portable W3C-format tokens (color/radius/spacing/typography/shadow), for non-Tailwind targets. |
