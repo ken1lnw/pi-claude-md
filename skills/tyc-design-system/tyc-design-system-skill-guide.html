@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TYC Design System Skill — คู่มือติดตั้งและใช้งาน</title>
+<style>
+  :root{
+    --color-primary: #0172E5;
+    --color-primary-hover: #015BB7;
+    --color-primary-soft: #E7F1FD;
+    --color-secondary: #A5BBCB;
+    --color-accent: #E81F76;
+    --color-accent-tint: #FDF1F7;
+    --color-accent-tint-strong: #FCE4EF;
+    --color-accent-text: #A61558;
+    --color-dark: #22242D;
+
+    --bg: #F5F7FA;
+    --surface: #FFFFFF;
+    --surface-subtle: #F7F9FB;
+    --text-main: #1B1F2A;
+    --text-muted: #5B6472;
+    --border: #E2E6ED;
+    --code-bg: #171922;
+    --code-text: #E4E7EC;
+    --code-key: #7DB4F5;
+    --shadow-sm: 0 1px 2px rgba(23,25,34,.06);
+    --shadow-md: 0 6px 20px rgba(23,25,34,.08);
+
+    --font-ui: -apple-system, "Segoe UI", "Inter", "Prompt", sans-serif;
+    --font-mono: ui-monospace, "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg: #14151A;
+      --surface: #1C1E27;
+      --surface-subtle: #20222C;
+      --text-main: #EDEEF2;
+      --text-muted: #9AA1AC;
+      --border: #33353E;
+      --color-primary: #3987E5;
+      --color-primary-hover: #5B9FEE;
+      --color-primary-soft: #16283F;
+      --color-accent-tint: #2B1621;
+      --color-accent-tint-strong: #3A1D2C;
+      --color-accent-text: #F472B6;
+      --code-bg: #0F1016;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
+      --shadow-md: 0 6px 20px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #14151A; --surface: #1C1E27; --surface-subtle: #20222C;
+    --text-main: #EDEEF2; --text-muted: #9AA1AC; --border: #33353E;
+    --color-primary: #3987E5; --color-primary-hover: #5B9FEE; --color-primary-soft: #16283F;
+    --color-accent-tint: #2B1621; --color-accent-tint-strong: #3A1D2C; --color-accent-text: #F472B6;
+    --code-bg: #0F1016; --shadow-sm: 0 1px 2px rgba(0,0,0,.4); --shadow-md: 0 6px 20px rgba(0,0,0,.5);
+  }
+  :root[data-theme="light"]{
+    --bg: #F5F7FA; --surface: #FFFFFF; --surface-subtle: #F7F9FB;
+    --text-main: #1B1F2A; --text-muted: #5B6472; --border: #E2E6ED;
+    --color-primary: #0172E5; --color-primary-hover: #015BB7; --color-primary-soft: #E7F1FD;
+    --color-accent-tint: #FDF1F7; --color-accent-tint-strong: #FCE4EF; --color-accent-text: #A61558;
+    --code-bg: #171922; --shadow-sm: 0 1px 2px rgba(23,25,34,.06); --shadow-md: 0 6px 20px rgba(23,25,34,.08);
+  }
+
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family: var(--font-ui);
+    background: var(--bg);
+    color: var(--text-main);
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: var(--color-primary); }
+  code, .mono{ font-family: var(--font-mono); }
+
+  .shell{
+    display: grid;
+    grid-template-columns: 250px minmax(0,1fr);
+    max-width: 1180px;
+    margin: 0 auto;
+    align-items: start;
+  }
+  @media (max-width: 900px){
+    .shell{ grid-template-columns: 1fr; }
+    .toc{ position: static !important; order: 2; }
+  }
+
+  /* ---- Top banner ---- */
+  .hero{
+    background: linear-gradient(135deg, var(--color-dark) 0%, #1B3A63 60%, var(--color-primary) 130%);
+    color: #fff;
+    padding: 48px 32px 40px;
+  }
+  .hero-inner{ max-width: 1180px; margin: 0 auto; }
+  .hero .eyebrow{
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: #FBD3E5; background: rgba(232,31,118,.22); border: 1px solid rgba(232,31,118,.4);
+    padding: 4px 10px; border-radius: 999px; margin-bottom: 16px;
+  }
+  .hero h1{ font-size: 30px; margin: 0 0 10px; letter-spacing: -.01em; text-wrap: balance; }
+  .hero p{ margin: 0; color: rgba(255,255,255,.82); max-width: 62ch; font-size: 15px; }
+  .hero .meta{
+    display: flex; gap: 18px; flex-wrap: wrap; margin-top: 22px;
+    font-size: 12.5px; color: rgba(255,255,255,.7);
+  }
+  .hero .meta b{ color: #fff; font-weight: 600; }
+
+  /* ---- TOC ---- */
+  .toc{
+    position: sticky; top: 0;
+    padding: 28px 18px 40px 32px;
+    font-size: 13px;
+  }
+  .toc h5{
+    font-size: 11px; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--text-muted); margin: 18px 0 8px;
+  }
+  .toc h5:first-child{ margin-top: 0; }
+  .toc a{
+    display: block; padding: 5px 10px; margin: 1px 0;
+    border-radius: 6px; color: var(--text-muted); text-decoration: none;
+    border-left: 2px solid transparent;
+  }
+  .toc a:hover{ background: var(--surface-subtle); color: var(--text-main); }
+
+  /* ---- Main content ---- */
+  main{ padding: 36px 32px 80px; min-width: 0; }
+  section{ margin-bottom: 52px; scroll-margin-top: 20px; }
+  h2{
+    font-size: 21px; margin: 0 0 6px; letter-spacing: -.01em;
+    display: flex; align-items: center; gap: 10px;
+  }
+  h2 .num{
+    font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    color: var(--color-primary); background: var(--color-primary-soft);
+    width: 26px; height: 26px; border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center; flex: none;
+  }
+  h2 + .lead{ color: var(--text-muted); margin: 0 0 20px; max-width: 68ch; }
+  h3{ font-size: 15.5px; margin: 26px 0 10px; }
+  p{ margin: 0 0 12px; max-width: 72ch; }
+  ul, ol{ margin: 0 0 14px; padding-left: 22px; max-width: 68ch; }
+  li{ margin-bottom: 5px; }
+  strong{ font-weight: 650; }
+
+  .card{
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; box-shadow: var(--shadow-sm);
+    padding: 20px 22px;
+  }
+
+  pre{
+    background: var(--code-bg); color: var(--code-text);
+    border-radius: 10px; padding: 16px 18px; overflow-x: auto;
+    font-size: 12.5px; line-height: 1.7; margin: 0 0 14px;
+    position: relative;
+  }
+  pre code{ font-family: var(--font-mono); white-space: pre; }
+  .code-label{
+    position: absolute; top: 8px; right: 12px;
+    font-size: 10px; letter-spacing: .06em; text-transform: uppercase;
+    color: #8E93A0;
+  }
+
+  .prompt-example{
+    display: flex; align-items: flex-start; gap: 10px;
+    background: var(--surface-subtle); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 14px; margin: 0 0 10px;
+    font-size: 13.5px;
+  }
+  .prompt-example svg{ flex: none; margin-top: 2px; color: var(--color-primary); }
+  .prompt-example .txt{ font-style: italic; color: var(--text-main); }
+
+  .mode-grid{ display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 16px; margin: 18px 0 8px; }
+  .mode-card{
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px 20px; box-shadow: var(--shadow-sm);
+  }
+  .mode-card .tag{
+    display: inline-block; font-family: var(--font-mono); font-size: 11.5px; font-weight: 700;
+    color: var(--color-primary); background: var(--color-primary-soft);
+    padding: 3px 9px; border-radius: 999px; margin-bottom: 10px;
+  }
+  .mode-card h4{ margin: 0 0 6px; font-size: 15px; }
+  .mode-card p{ font-size: 13px; color: var(--text-muted); margin-bottom: 10px; }
+
+  .filetree{
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px 22px; font-family: var(--font-mono); font-size: 13px; line-height: 1.9;
+  }
+  .filetree .d{ color: var(--color-primary); font-weight: 600; }
+  .filetree .f{ color: var(--text-muted); }
+  .filetree .new{ color: var(--color-accent-text); font-weight: 600; }
+
+  table{ width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 4px 0 18px; }
+  th, td{ text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th{ font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); font-weight: 600; }
+  td code{ font-size: 12px; background: var(--surface-subtle); padding: 1px 6px; border-radius: 4px; }
+
+  .module-list{ columns: 2; column-gap: 28px; font-size: 13.5px; margin: 10px 0 18px; }
+  @media (max-width: 640px){ .module-list{ columns: 1; } }
+  .module-list li{ break-inside: avoid; }
+
+  .checklist{ list-style: none; padding-left: 0; margin: 10px 0 18px; }
+  .checklist li{
+    display: flex; gap: 9px; align-items: flex-start; font-size: 13.5px; margin-bottom: 8px;
+  }
+  .checklist li::before{
+    content: ""; flex: none; width: 15px; height: 15px; margin-top: 2px;
+    border: 1.5px solid var(--color-primary); border-radius: 4px; background: var(--color-primary-soft);
+  }
+
+  .faq-item{ border-bottom: 1px solid var(--border); padding: 16px 0; }
+  .faq-item:first-child{ padding-top: 0; }
+  .faq-item:last-child{ border-bottom: none; }
+  .faq-q{ font-weight: 650; margin-bottom: 6px; display: flex; gap: 8px; }
+  .faq-q .q-mark{
+    flex: none; width: 20px; height: 20px; border-radius: 50%;
+    background: var(--color-accent-tint-strong); color: var(--color-accent-text);
+    font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+  }
+  .faq-a{ color: var(--text-muted); margin: 0; max-width: 68ch; }
+
+  .callout{
+    display: flex; gap: 12px; padding: 14px 16px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--surface-subtle); font-size: 13.5px;
+    margin: 0 0 16px;
+  }
+  .callout.warn{ background: var(--color-accent-tint); border-color: var(--color-accent-tint-strong); }
+  .callout svg{ flex: none; margin-top: 1px; color: var(--color-accent-text); }
+  .callout.info svg{ color: var(--color-primary); }
+  .callout.info{ background: var(--color-primary-soft); border-color: var(--color-primary-soft); }
+
+  footer{
+    border-top: 1px solid var(--border); padding: 22px 32px;
+    font-size: 12.5px; color: var(--text-muted);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Claude Code · Personal Skill</span>
+    <h1>TYC Design System Skill — คู่มือติดตั้งและใช้งาน</h1>
+    <p>เอกสารนี้สอนวิธีติดตั้งและเรียกใช้ skill <code class="mono" style="background:rgba(255,255,255,.14); padding:2px 7px; border-radius:5px;">tyc-design-system</code> เพื่อให้ทุกระบบภายในองค์กรใช้ธีมเดียวกัน — สี ปุ่ม ตาราง การ์ด และโหมดสว่าง/มืด — โดยไม่ต้องเริ่มออกแบบใหม่ทุกโปรเจกต์</p>
+    <div class="meta">
+      <span>เครื่อง: <b>tit1622 (Windows)</b></span>
+      <span>ตำแหน่งไฟล์: <b class="mono">~/.claude/skills/tyc-design-system/</b></span>
+      <span>อ้างอิงจาก: <b>theme-ui-guideline.html</b></span>
+    </div>
+  </div>
+</div>
+
+<div class="shell">
+  <nav class="toc">
+    <h5>เริ่มต้น</h5>
+    <a href="#overview">ภาพรวม</a>
+    <a href="#install">การติดตั้ง</a>
+    <a href="#verify">ตรวจสอบว่าใช้งานได้</a>
+    <h5>การใช้งาน</h5>
+    <a href="#usage">วิธีเรียกใช้</a>
+    <a href="#mode-full">โหมด full</a>
+    <a href="#mode-partial">โหมด partial</a>
+    <a href="#mode-extend">โหมด extend</a>
+    <h5>อ้างอิง</h5>
+    <a href="#files">โครงสร้างไฟล์</a>
+    <a href="#rules">กติกาที่ห้ามยืดหยุ่น</a>
+    <a href="#faq">คำถามที่พบบ่อย</a>
+  </nav>
+
+  <main>
+
+    <section id="overview">
+      <h2><span class="num">1</span>ภาพรวม</h2>
+      <p class="lead">ปัญหาที่ skill นี้แก้: ทุกครั้งที่สร้างหรือแก้ระบบใหม่ Claude มักจะ "เดา" สี ขนาดมุมโค้ง หรือรูปแบบปุ่มขึ้นมาเอง ทำให้แต่ละระบบภายในบริษัทหน้าตาไม่ตรงกัน</p>
+      <p>Skill <code>tyc-design-system</code> แก้ปัญหานี้ด้วยการบังคับให้ Claude อ่านค่าจาก token/ไฟล์อ้างอิงจริงก่อนเขียนโค้ดทุกครั้ง แทนที่จะจำหรือเดาค่าสีจากบทสนทนาเก่า และมีกติกาตายตัว (ปุ่มต้องมน, หัวตารางต้องฟ้า, ชมพูใช้แค่จุดเน้น ฯลฯ) ที่ Claude ต้องทำตาม เว้นแต่จะถามผู้ใช้ก่อน</p>
+      <div class="callout info">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 8h.01M11 12h1v5h1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <div>Skill นี้เป็น personal skill ผูกกับเครื่องนี้เครื่องเดียว (ดูหัวข้อ "การติดตั้ง" ว่าจะขยายไปทั้งทีมอย่างไร)</div>
+      </div>
+    </section>
+
+    <section id="install">
+      <h2><span class="num">2</span>การติดตั้ง</h2>
+      <p class="lead">สำหรับเครื่องนี้ (tit1622) ติดตั้งเรียบร้อยแล้ว ไม่ต้องทำอะไรเพิ่ม — หัวข้อนี้มีไว้สำหรับตอนย้ายเครื่อง หรือแจกจ่ายให้เพื่อนร่วมทีม</p>
+
+      <h3>2.1 ติดตั้งแล้วบนเครื่องนี้</h3>
+      <div class="filetree">
+        <span class="d">C:\Users\tit1622\.claude\skills\</span><br>
+        &nbsp;&nbsp;└─ <span class="d">tyc-design-system\</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="f">SKILL.md</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="new">tyc-design-system-skill-guide.html</span>&nbsp;<span style="color:var(--text-muted); font-size:11px;">← ไฟล์นี้</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ <span class="d">reference\</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="f">tokens-and-rules.md</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="new">component-conventions.md</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="f">theme-ui-guideline.html</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="f">tyc-design-tokens.css</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="f">tyc-design-tokens.json</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ <span class="f">tailwind.config.js</span>
+      </div>
+      <p style="margin-top:10px; font-size:13px; color:var(--text-muted);">คู่มือฉบับนี้อยู่ในโฟลเดอร์ skill โดยตรงแล้ว — เวลาคัดลอกหรือแจกจ่ายทั้งโฟลเดอร์ <code>tyc-design-system\</code> (ดูหัวข้อ 2.2 และ 2.3) จะได้คู่มือนี้ติดไปด้วยเสมอ ไม่ต้องส่งแยก</p>
+
+      <h3>2.2 ติดตั้งให้เพื่อนร่วมทีม (คนละเครื่อง)</h3>
+      <p>Personal skill ไม่ sync ข้ามเครื่องอัตโนมัติ ต้องคัดลอกโฟลเดอร์ทั้งหมดไปวางในตำแหน่งเดียวกันบนเครื่องของเพื่อนร่วมทีม:</p>
+      <pre><span class="code-label">PowerShell</span><code># บนเครื่องปลายทาง — วางโฟลเดอร์ tyc-design-system ทั้งก้อนไว้ที่นี่
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.claude\skills" | Out-Null
+Copy-Item -Recurse ".\tyc-design-system" "$env:USERPROFILE\.claude\skills\tyc-design-system"</code></pre>
+      <p>ส่งโฟลเดอร์ <code>tyc-design-system</code> ให้ผ่านทาง shared drive, USB หรือ zip แล้วส่งใน Teams/Slack ก็ได้ — ไม่มี dependency ภายนอก เป็นไฟล์ข้อความล้วน</p>
+
+      <h3>2.3 ติดตั้งแบบผูกกับ repo (แนะนำถ้าต้องการบังคับทั้งทีมอัตโนมัติ)</h3>
+      <p>วิธีข้างบนต้องคัดลอกเองทีละเครื่อง ถ้าต้องการให้ <strong>ทุกคนที่ clone repo ได้ skill ไปด้วยทันทีโดยไม่ต้องติดตั้งเอง</strong> ให้คัดลอกโฟลเดอร์เดียวกันไปไว้ใน path ของ repo แทน แล้ว commit เข้า git:</p>
+      <pre><span class="code-label">ตัวอย่างสำหรับ repo wms</span><code>C:\Users\&lt;user&gt;\bc_project\wms\.claude\skills\tyc-design-system\
+  ├─ SKILL.md
+  └─ reference\ ...</code></pre>
+      <p>ข้อดี: อัปเดตครั้งเดียวใน repo ทุกคนได้ของใหม่ผ่าน <code>git pull</code> ปกติ ไม่ต้องแจกไฟล์เอง — เหมาะกับเป้าหมาย "ทั้งองค์กรใช้ธีมเดียวกัน" มากกว่าแบบ personal</p>
+      <div class="callout warn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div>ถ้าติดตั้งแบบผูกกับ repo ต้องคอย sync กับต้นฉบับที่ <code>~/.claude/skills/tyc-design-system/</code> เองเวลามีการแก้ theme (ดูโหมด <code>extend</code> ด้านล่าง) ไม่งั้นแต่ละ repo จะเห็นเวอร์ชันธีมไม่ตรงกัน</div>
+      </div>
+    </section>
+
+    <section id="verify">
+      <h2><span class="num">3</span>ตรวจสอบว่าใช้งานได้</h2>
+      <p>เปิด Claude Code session ใหม่ในโปรเจกต์ไหนก็ได้ แล้วลองถามตรงๆ ว่า:</p>
+      <div class="prompt-example">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.97-4.03 9-9 9-1.5 0-2.9-.37-4.14-1.02L3 21l1.02-3.86A8.96 8.96 0 013 12c0-4.97 4.03-9 9-9s9 4.03 9 9z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="txt">"มี skill อะไรให้ใช้บ้าง"</span>
+      </div>
+      <p>ถ้าเห็น <code>tyc-design-system</code> ในรายการที่ตอบกลับมา แปลว่าติดตั้งถูกต้อง — หรือจะข้ามขั้นตอนนี้แล้วลองสั่งงานตรงๆ ตามหัวข้อถัดไปเลยก็ได้ เพราะ skill นี้ถูกออกแบบให้เรียกใช้อัตโนมัติเมื่อคำขอเข้าเงื่อนไข ไม่ต้องเปิดเองก่อนเสมอไป</p>
+    </section>
+
+    <section id="usage">
+      <h2><span class="num">4</span>วิธีเรียกใช้</h2>
+      <p class="lead">ไม่มีคำสั่งพิเศษที่ต้องจำ — พิมพ์สิ่งที่ต้องการเป็นภาษาปกติ Claude จะจับคู่กับ skill นี้เองถ้าเนื้อหาเข้าเงื่อนไข (พูดถึง "TYC theme", "design system", หรือทำ UI ให้ระบบภายในองค์กร)</p>
+      <div class="prompt-example">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.97-4.03 9-9 9-1.5 0-2.9-.37-4.14-1.02L3 21l1.02-3.86A8.96 8.96 0 013 12c0-4.97 4.03-9 9-9s9 4.03 9 9z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="txt">"ปรับหน้านี้ให้ตรงกับ TYC design system หน่อย"</span>
+      </div>
+      <p>ถ้าอยากเจาะจงให้ชัวร์ว่าเรียก skill นี้แน่ๆ ให้พิมพ์ชื่อ skill ตรงๆ ได้เหมือนกัน:</p>
+      <pre><code>/tyc-design-system full</code></pre>
+      <p>ด้านล่างนี้คือ 3 โหมดที่ skill รองรับ — พิมพ์เป็นประโยคปกติแล้วระบุขอบเขตให้ชัดก็พอ ไม่จำเป็นต้องพิมพ์ชื่อโหมดตรงๆ</p>
+
+      <div class="mode-grid">
+        <div class="mode-card" id="mode-full">
+          <span class="tag">full</span>
+          <h4>เปลี่ยน theme ทั้งหมด</h4>
+          <p>รีสกินทุกหมวด (สี ปุ่ม ตาราง การ์ด ฟอร์ม navigation dark/light) ทั้งระบบในครั้งเดียว เหมาะกับระบบใหม่ หรือระบบเก่าที่ยังไม่เคยตรง theme เลย</p>
+          <div class="prompt-example" style="margin:0;">
+            <span class="txt">"เปลี่ยน theme ทั้งระบบนี้ให้เป็น TYC design system"</span>
+          </div>
+        </div>
+        <div class="mode-card" id="mode-partial">
+          <span class="tag">partial</span>
+          <h4>เปลี่ยน theme บางส่วน</h4>
+          <p>ระบุเฉพาะจุดที่ต้องการ เช่น สีหรือปุ่ม โดยไม่แตะส่วนอื่น ถ้าบอกแค่ "บางส่วน" โดยไม่ระบุ Claude จะถามกลับให้เลือกจากเมนู 11 หมวด (ดูด้านล่าง)</p>
+          <div class="prompt-example" style="margin:0;">
+            <span class="txt">"เปลี่ยนแค่ปุ่มกับตารางให้ตรง TYC theme"</span>
+          </div>
+        </div>
+        <div class="mode-card" id="mode-extend">
+          <span class="tag">extend</span>
+          <h4>เพิ่ม pattern ใหม่เข้า theme</h4>
+          <p>ไม่ใช่การแก้ระบบปลายทาง แต่เป็นการเพิ่ม component/token ใหม่เข้าไปใน <code>theme-ui-guideline.html</code> ต้นฉบับ แล้ว sync กลับเข้า skill ให้อัตโนมัติ</p>
+          <div class="prompt-example" style="margin:0;">
+            <span class="txt">"เพิ่ม component นี้เข้าไปใน TYC design system ด้วย"</span>
+          </div>
+        </div>
+      </div>
+
+      <h3>เมนู 11 หมวดสำหรับโหมด partial</h3>
+      <p>เมื่อ Claude ถามว่าจะเปลี่ยนส่วนไหน จะเลือกได้จากรายการนี้เท่านั้น (ตรงกับ section ใน <code>theme-ui-guideline.html</code> แบบ 1:1):</p>
+      <ul class="module-list">
+        <li>Colors &amp; Tokens</li>
+        <li>Typography</li>
+        <li>Radius &amp; Spacing</li>
+        <li>Buttons</li>
+        <li>Tables</li>
+        <li>Cards &amp; Layout</li>
+        <li>Forms &amp; Inputs</li>
+        <li>Navigation</li>
+        <li>Overlays</li>
+        <li>Charts</li>
+        <li>Dark/Light mode</li>
+      </ul>
+    </section>
+
+    <section id="files">
+      <h2><span class="num">5</span>โครงสร้างไฟล์อ้างอิง</h2>
+      <p class="lead">Claude จะอ่านไฟล์เหล่านี้ก่อนเขียนโค้ดเสมอ แทนการจำค่าจากบทสนทนาเก่า</p>
+      <table>
+        <thead><tr><th>ไฟล์</th><th>ใช้ทำอะไร</th></tr></thead>
+        <tbody>
+          <tr><td><code>tokens-and-rules.md</code></td><td>Cheat sheet ค่าสี/radius/spacing/dark-mode แบบย่อ — จุดแรกที่ถูกอ่านเสมอ</td></tr>
+          <tr><td><code>component-conventions.md</code></td><td>โครงสร้าง badge สถานะ (พร้อมตารางแปลความหมาย), SVG ไอคอนของปุ่ม action ทุกแบบ (ดู/แก้ไข/ลบ/เพิ่ม/รีเฟรช ฯลฯ), และโครงสร้าง navbar/header ที่ตายตัว (ลำดับปุ่ม, สีพื้นหลัง) — จุดที่ token สีอย่างเดียวไม่พอ ต้องเป๊ะทั้งรูปทรง/โครงสร้างด้วย</td></tr>
+          <tr><td><code>theme-ui-guideline.html</code></td><td>Component library ฉบับเต็ม เปิดดูในเบราว์เซอร์ได้ แต่ละ component มีปุ่ม "ดูโค้ด" คัดลอกไปวางได้ทันที</td></tr>
+          <tr><td><code>tyc-design-tokens.css</code></td><td>Token แบบ Tailwind v4 (CSS-first) — schema ตรงกับ frontend-mes / rcs-rmr-pm / wms</td></tr>
+          <tr><td><code>tyc-design-tokens.json</code></td><td>Token แบบ W3C JSON — ใช้กับโปรเจกต์ที่ไม่ใช่ Tailwind</td></tr>
+          <tr><td><code>tailwind.config.js</code></td><td>สำหรับโปรเจกต์ Tailwind v3 (รุ่นเก่าที่ยังไม่ย้ายเป็น CSS-first)</td></tr>
+        </tbody>
+      </table>
+      <div class="callout warn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div>ไฟล์เหล่านี้เป็น "สำเนา" — ต้นฉบับจริงอยู่ที่ <code>C:\Users\tit1622\Desktop\theme-ui-guideline.html</code> ถ้าแก้ต้นฉบับแล้วลืม sync กลับเข้า <code>reference\</code> โหมด full/partial ครั้งต่อไปจะยังใช้ข้อมูลเก่าอยู่ — ใช้โหมด <code>extend</code> เพื่อให้ sync ให้อัตโนมัติ</div>
+      </div>
+    </section>
+
+    <section id="rules">
+      <h2><span class="num">6</span>กติกาที่ห้ามยืดหยุ่น</h2>
+      <p class="lead">Claude ต้องทำตามข้อเหล่านี้เสมอ เว้นแต่จะถามและได้รับอนุญาตจากผู้ใช้ก่อน</p>
+      <ul class="checklist">
+        <li>ปุ่มทุกแบบต้องเป็นทรงมน (pill) ยกเว้นปุ่มไอคอนเดี่ยวที่ยังเป็นเหลี่ยมมน (radius-md)</li>
+        <li>หัวตารางต้องพื้นฟ้าแบรนด์ ตัวอักษรขาวเสมอ</li>
+        <li>สีชมพู (accent) ใช้ได้แค่จุดตกแต่ง ไม่เกิน ~25% ของหน้าจอ ห้ามใช้กับปุ่มหลักหรือข้อความยาว</li>
+        <li>ห้าม hardcode เลขสี (hex) ใหม่ในโค้ด — ทุกสีต้องมาจาก token เท่านั้น เพื่อให้ dark mode ทำงานถูกต้องเสมอ</li>
+        <li>ระบบใหม่ทุกระบบต้องมี dark/light mode ตั้งแต่เริ่มสร้าง ไม่ใช่ค่อยเพิ่มทีหลัง</li>
+        <li>ถ้าระบบเดิมมี convention ที่ขัดกับ theme นี้ Claude ต้องหยุดถามก่อนเสมอ ห้ามเขียนทับเงียบๆ</li>
+      </ul>
+    </section>
+
+    <section id="faq">
+      <h2><span class="num">7</span>คำถามที่พบบ่อย</h2>
+
+      <div class="faq-item">
+        <div class="faq-q"><span class="q-mark">?</span>สั่งงานแล้ว Claude ไม่ได้ใช้ theme นี้ ทำยังไง</div>
+        <p class="faq-a">พิมพ์ชื่อ skill ให้ชัดเจนขึ้น เช่น "ใช้ tyc-design-system ปรับ..." หรือพิมพ์ <code>/tyc-design-system full</code> ตรงๆ เพื่อบังคับเรียกโดยไม่ต้องพึ่งการจับคู่อัตโนมัติ</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="q-mark">?</span>แก้ไฟล์ theme-ui-guideline.html บน Desktop เพิ่มเติมแล้ว ต้องทำอะไรต่อ</div>
+        <p class="faq-a">ถ้าสั่งผ่านโหมด <code>extend</code> Claude จะ sync ไฟล์กลับเข้า <code>reference/</code> ให้เองเป็นขั้นตอนสุดท้าย แต่ถ้าแก้ไฟล์เองนอกบทสนทนา ต้องคัดลอกไฟล์ที่เปลี่ยนไปทับใน <code>reference/</code> ด้วยตัวเอง ไม่งั้น skill จะยังอ้างอิงเวอร์ชันเก่า</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="q-mark">?</span>ทีมอื่นที่ไม่ได้อยู่เครื่องนี้ใช้ skill นี้ได้ไหม</div>
+        <p class="faq-a">ไม่โดยอัตโนมัติ — เป็น personal skill ผูกกับเครื่อง tit1622 เท่านั้น ต้องคัดลอกโฟลเดอร์ไปติดตั้งที่เครื่องอื่น (ดูหัวข้อ "การติดตั้ง") หรือย้ายไปผูกกับ repo แทนถ้าต้องการให้ทุกคนที่ clone repo ได้อัตโนมัติ</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="q-mark">?</span>ระบบเดิมมีสี/ปุ่มไม่เหมือน TYC theme อยู่แล้ว Claude จะเขียนทับเลยไหม</div>
+        <p class="faq-a">ไม่ — กติกาบังคับให้ Claude หยุดถามก่อนเสมอเมื่อเจอ convention เดิมที่ขัดกับ theme (ดูหัวข้อ 6) เพื่อป้องกันการรีสกินทับการตัดสินใจเดิมของทีมโดยไม่ตั้งใจ</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="q-mark">?</span>อยากเพิ่ม component ใหม่เข้า design system ต้องทำยังไง</div>
+        <p class="faq-a">ใช้โหมด <code>extend</code> — บอก Claude ว่าต้องการเพิ่มอะไรเข้า TYC design system ระบบจะเพิ่มเข้าไฟล์ต้นฉบับตามรูปแบบเดิม (การ์ด + โค้ดตัวอย่าง) ตรวจสอบสีถ้ามีการเพิ่มสีใหม่ แล้ว sync กลับเข้า skill ให้เอง</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="q-mark">?</span>สั่งปรับ theme แล้ว badge สถานะ ปุ่ม action (ดู/แก้ไข/ลบ) หรือ navbar ยังไม่เหมือนต้นฉบับ ทำไม</div>
+        <p class="faq-a">เพราะ 3 จุดนี้ต้องเป๊ะทั้ง "รูปทรง/โครงสร้าง" ไม่ใช่แค่สี — badge ต้องมีจุดนำหน้าอัตโนมัติจาก <code>.badge::before</code> ไม่ใช่ไอคอนที่แทรกเอง, ปุ่ม action ต้องใช้ SVG เดียวกับต้นฉบับเป๊ะๆ (path data เดียวกัน), และ navbar ต้องพื้นฟ้าแบรนด์ + ลำดับปุ่มตรงกัน (สลับธีม → รีเฟรช → ภาษา → โปรไฟล์) navbar เป็นจุดที่มักถูกข้ามเพราะอยู่เหนือจอตอนทำงานส่วนอื่น จุดนี้แก้แล้วโดยเพิ่มไฟล์ <code>component-conventions.md</code> ที่มีโค้ดตัวอย่างครบทั้ง 3 เรื่องไว้ให้คัดลอกตรงๆ — ถ้ายังไม่ตรงหลังจากนี้ ให้บอก Claude อ้างอิงไฟล์นี้ตรงๆ</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <span>TYC Thailand — Internal Tooling Documentation</span>
+  <span>อ้างอิงจาก tyc-design-system skill · เครื่อง tit1622</span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,251 @@
+/* =====================================================================
+   TYC THAILAND — DESIGN TOKENS (Tailwind CSS v4 / shadcn-ui compatible)
+   สร้างให้ตรงกับ schema ของ src/styles/globals.css ในโปรเจกต์ rcs-rmr-pm
+   (Tailwind v4 แบบ CSS-first ไม่มี tailwind.config.js — ใช้ @theme inline แทน)
+
+   วิธีใช้: แทนที่บล็อก @theme inline / :root / .dark ในไฟล์ globals.css
+   เดิมด้วยไฟล์นี้ทั้งหมด (คง @import "tailwindcss" และ @layer base ที่มี
+   print styles เดิมไว้ด้านล่างสุดของไฟล์ตามเดิม) แล้ว build ใหม่ได้ทันที —
+   component ที่ใช้ bg-primary / text-muted-foreground / rounded-md ฯลฯ
+   (shadcn/ui, Button, Card, Input, Sidebar) จะเปลี่ยนเป็นโทน TYC ทั้งระบบ
+   โดยไม่ต้องแก้โค้ด component แม้แต่บรรทัดเดียว
+
+   สีอ้างอิงจาก Brand Guideline จริง (Pantone 2173 C / 213 C / 5435 C / 6 C)
+   แปลงเป็น OKLCH ให้ตรงกับที่ Tailwind v4 ใช้เป็นค่าเริ่มต้น
+===================================================================== */
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ---------------------------------------------------------------------
+   @theme inline — ลงทะเบียนตัวแปรให้ Tailwind แปลงเป็น utility class
+   (bg-primary, text-success, rounded-md, ...) เหมือนเดิมทุกประการ
+   เพิ่มเฉพาะ --color-success / --color-warning ที่ shadcn ไม่มีให้โดย default
+--------------------------------------------------------------------- */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-sarabun: var(--font-sarabun);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  /* ต่อยอด: สี accent ของแบรนด์ (Pantone 213 C) — ใช้เป็นของตกแต่งเท่านั้น */
+  --color-brand-accent: var(--brand-accent);
+
+  /* ต่อยอด: สถานะ success / warning ที่ shadcn ไม่มีให้โดย default
+     ทำให้ bg-success, text-warning-foreground ฯลฯ ใช้งานได้ทันที */
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ---------------------------------------------------------------------
+   :root — LIGHT MODE
+   --radius: 0.5rem (8px) → sm 4 / md 6 / lg 8 / xl 12
+   ตรงกับ --radius-md: 6px ที่ล็อกไว้ในสเปก UX/UI ของบริษัท (theme-ui-guideline.html)
+--------------------------------------------------------------------- */
+:root {
+  --radius: 0.5rem;
+
+  --background: oklch(0.970 0.003 264.542);        /* #F4F5F7 — พื้นหลังหน้าจอ */
+  --foreground: oklch(0.261 0.024 267.110);         /* #1F2430 — ข้อความหลัก */
+
+  --card: oklch(1 0 0);                             /* #FFFFFF */
+  --card-foreground: oklch(0.261 0.024 267.110);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.261 0.024 267.110);
+
+  --primary: oklch(0.567 0.195 256.216);            /* PANTONE 2173 C · #0172E5 */
+  --primary-foreground: oklch(1 0 0);
+
+  --secondary: oklch(0.970 0.003 264.542);          /* พื้นปุ่มรอง (soft neutral) */
+  --secondary-foreground: oklch(0.261 0.024 267.110);
+
+  --muted: oklch(0.970 0.003 264.542);
+  --muted-foreground: oklch(0.551 0.023 264.364);   /* #6B7280 */
+
+  --accent: oklch(0.954 0.019 252.879);             /* Blue Soft #E7F1FD — hover/highlight */
+  --accent-foreground: oklch(0.567 0.195 256.216);  /* ข้อความบน accent ใช้สี primary */
+
+  --destructive: oklch(0.577 0.215 27.325);         /* #DC2626 */
+
+  --border: oklch(0.924 0.008 260.732);             /* #E3E6EB */
+  --input: oklch(0.924 0.008 260.732);
+  --ring: oklch(0.567 0.195 256.216);               /* focus ring = primary blue */
+
+  /* ต่อยอด: brand accent — PANTONE 213 C ใช้เป็น decorative stripe/badge เท่านั้น
+     ห้าม bind เข้ากับ text/ปุ่มหลัก (contrast ไม่ผ่าน AA ตามผลตรวจ WCAG) */
+  --brand-accent: oklch(0.610 0.232 2.852);         /* #E81F76 */
+
+  --success: oklch(0.627 0.170 149.214);            /* #16A34A */
+  --success-foreground: oklch(1 0 0);
+  --warning: oklch(0.666 0.157 58.318);             /* #D97706 */
+  --warning-foreground: oklch(1 0 0);
+
+  --chart-1: oklch(0.567 0.195 256.216);            /* primary */
+  --chart-2: oklch(0.627 0.170 149.214);            /* success */
+  --chart-3: oklch(0.666 0.157 58.318);             /* warning */
+  --chart-4: oklch(0.577 0.215 27.325);             /* danger */
+  --chart-5: oklch(0.781 0.033 239.497);            /* grey-blue */
+
+  /* Sidebar — พื้นเข้ม PANTONE 6 C ตามสเปก UX/UI (ทุกระบบใช้ sidebar โทนนี้เหมือนกัน) */
+  --sidebar: oklch(0.262 0.017 275.316);            /* #22242D */
+  --sidebar-foreground: oklch(0.840 0.014 272.662); /* #C7CAD4 — ข้อความเมนู default */
+  --sidebar-primary: oklch(0.567 0.195 256.216);    /* ไฮไลต์เมนู active = primary blue */
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.315 0.020 273.202);     /* #2E313C — hover บนเมนู */
+  --sidebar-accent-foreground: oklch(1 0 0);
+  --sidebar-border: oklch(0.354 0.021 274.218);     /* #383B47 */
+  --sidebar-ring: oklch(0.567 0.195 256.216);
+}
+
+/* ---------------------------------------------------------------------
+   .dark — DARK MODE
+   อ้างอิงจากสเปก dark-surface ที่ใช้จริงในหน้า Login (card สีเข้ม + grey-blue muted)
+--------------------------------------------------------------------- */
+.dark {
+  --background: oklch(0.206 0.012 277.835);         /* #16171D */
+  --foreground: oklch(1 0 0);
+
+  --card: oklch(0.262 0.017 275.316);               /* #22242D */
+  --card-foreground: oklch(1 0 0);
+
+  --popover: oklch(0.262 0.017 275.316);
+  --popover-foreground: oklch(1 0 0);
+
+  --primary: oklch(0.744 0.113 250.298);            /* #73B1F1 — ฟ้าอ่อนลง ให้ contrast พอบนพื้นเข้ม */
+  --primary-foreground: oklch(0.206 0.012 277.835);
+
+  --secondary: oklch(0.331 0.016 275.576);          /* #33353E */
+  --secondary-foreground: oklch(1 0 0);
+
+  --muted: oklch(0.331 0.016 275.576);
+  --muted-foreground: oklch(0.781 0.033 239.497);   /* #A5BBCB — PANTONE 5435 C */
+
+  --accent: oklch(0.331 0.016 275.576);
+  --accent-foreground: oklch(1 0 0);
+
+  --destructive: oklch(0.772 0.134 26.109);         /* #FF9187 — แดงอ่อนลงให้ contrast ผ่านบนพื้นเข้ม */
+
+  --border: oklch(0.403 0.017 272.350);             /* #454852 */
+  --input: oklch(0.403 0.017 272.350);
+  --ring: oklch(0.744 0.113 250.298);
+
+  --brand-accent: oklch(0.610 0.232 2.852);
+
+  --success: oklch(0.627 0.170 149.214);
+  --success-foreground: oklch(1 0 0);
+  --warning: oklch(0.666 0.157 58.318);
+  --warning-foreground: oklch(1 0 0);
+
+  --chart-1: oklch(0.744 0.113 250.298);
+  --chart-2: oklch(0.627 0.170 149.214);
+  --chart-3: oklch(0.666 0.157 58.318);
+  --chart-4: oklch(0.772 0.134 26.109);
+  --chart-5: oklch(0.781 0.033 239.497);
+
+  --sidebar: oklch(0.262 0.017 275.316);
+  --sidebar-foreground: oklch(0.840 0.014 272.662);
+  --sidebar-primary: oklch(0.744 0.113 250.298);
+  --sidebar-primary-foreground: oklch(0.206 0.012 277.835);
+  --sidebar-accent: oklch(0.331 0.016 275.576);
+  --sidebar-accent-foreground: oklch(1 0 0);
+  --sidebar-border: oklch(0.403 0.017 272.350);
+  --sidebar-ring: oklch(0.744 0.113 250.298);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Print styles — คงไว้ตามไฟล์ globals.css เดิมของ rcs-rmr-pm ทุกประการ
+--------------------------------------------------------------------- */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+
+  .print-area {
+    position: fixed;
+    top: -11mm;
+    left: -12mm;
+
+    width: 210mm;
+    height: 297mm;
+
+    margin: 0;
+    padding: 0;
+  }
+
+  [style*="transform"] {
+    transform: none !important;
+  }
+
+  .overflow-auto,
+  .relative,
+  .absolute {
+    position: static !important;
+    overflow: visible !important;
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "name": "TYC Thailand — Design Tokens",
+  "description": "แหล่งข้อมูลสีและระยะกลางขององค์กร อ้างอิงจาก Brand Guideline จริง (Pantone 2173 C / 213 C / 5435 C / 6 C). ใช้เป็น source of truth เดียวกันสำหรับทุกระบบ — เว็บ (Tailwind/CSS), Figma (ผ่าน Tokens Studio plugin), และเอกสารประกอบ. ไฟล์คู่กัน: tyc-design-tokens.css (สำหรับ Tailwind v4 / shadcn-ui โดยตรง)",
+
+  "color": {
+    "brand": {
+      "primary": { "$type": "color", "$value": "#0172E5", "$description": "PANTONE 2173 C — สีหลัก ใช้กับปุ่ม/ลิงก์/โลโก้ ~75% ของสัดส่วนสีในดีไซน์ที่มี 2 สีคู่กัน" },
+      "primary-hover": { "$type": "color", "$value": "#015BB7", "$description": "Hover / Active ของ primary" },
+      "primary-soft": { "$type": "color", "$value": "#E7F1FD", "$description": "พื้นอ่อนของ primary เช่น badge, active state, dropdown hover" },
+      "secondary": { "$type": "color", "$value": "#A5BBCB", "$description": "PANTONE 5435 C — Grey-Blue ใช้กับ border, ปุ่มรอง, ข้อความรองบนพื้นเข้ม" },
+      "accent": { "$type": "color", "$value": "#E81F76", "$description": "PANTONE 213 C — ใช้เป็น decorative accent เท่านั้น (แถบตกแต่ง/badge) ~25% ของสัดส่วนสี ห้ามใช้เป็นสีข้อความหรือพื้นปุ่มหลัก เพราะ contrast ไม่ผ่าน WCAG AA" },
+      "dark": { "$type": "color", "$value": "#22242D", "$description": "PANTONE 6 C — Near-black ใช้เป็นพื้น Sidebar และ dark surface หลักของระบบ" },
+      "dark-soft": { "$type": "color", "$value": "#2E313C", "$description": "เฉด dark ที่อ่อนกว่า ใช้ hover บนพื้น sidebar" },
+      "dark-border": { "$type": "color", "$value": "#383B47", "$description": "เส้นแบ่งบนพื้น dark" }
+    },
+    "neutral": {
+      "background": { "$type": "color", "$value": "#F4F5F7", "$description": "พื้นหลังของ Main Content Area" },
+      "surface": { "$type": "color", "$value": "#FFFFFF", "$description": "พื้นของ Card / Table / Header" },
+      "text-main": { "$type": "color", "$value": "#1F2430", "$description": "ข้อความหลัก" },
+      "text-muted": { "$type": "color", "$value": "#6B7280", "$description": "ข้อความรอง / label / caption" },
+      "border": { "$type": "color", "$value": "#E3E6EB", "$description": "เส้นขอบมาตรฐานบนพื้นขาว" }
+    },
+    "dark-surface": {
+      "page": { "$type": "color", "$value": "#16171D", "$description": "พื้นหลังหน้าเมื่ออยู่ใน dark mode / นอก card" },
+      "panel": { "$type": "color", "$value": "#22242D", "$description": "พื้น card / phone-screen บน dark mode (= brand.dark)" },
+      "input": { "$type": "color", "$value": "#33353E", "$description": "พื้น input field บน dark surface" },
+      "border": { "$type": "color", "$value": "#454852", "$description": "เส้นขอบ input/divider บน dark surface" },
+      "muted": { "$type": "color", "$value": "#A5BBCB", "$description": "ข้อความรอง/placeholder บน dark surface (= brand.secondary)" },
+      "link": { "$type": "color", "$value": "#73B1F1", "$description": "ลิงก์/focus บน dark surface — 6.8:1 AA" }
+    },
+    "status": {
+      "success": { "$type": "color", "$value": "#16A34A" },
+      "success-bg": { "$type": "color", "$value": "#DCFCE7" },
+      "success-text": { "$type": "color", "$value": "#166534" },
+      "warning": { "$type": "color", "$value": "#D97706" },
+      "warning-bg": { "$type": "color", "$value": "#FEF3C7" },
+      "warning-text": { "$type": "color", "$value": "#92400E" },
+      "danger": { "$type": "color", "$value": "#DC2626" },
+      "danger-bg": { "$type": "color", "$value": "#FEE2E2" },
+      "danger-text": { "$type": "color", "$value": "#991B1B" },
+      "danger-on-dark": { "$type": "color", "$value": "#FF9187", "$description": "ข้อความ error บน dark surface — 7.9:1 AAA" }
+    }
+  },
+
+  "radius": {
+    "sm": { "$type": "dimension", "$value": "4px" },
+    "md": { "$type": "dimension", "$value": "6px", "$description": "ค่ามาตรฐานหลักของระบบ — ปุ่ม, input, badge เล็ก" },
+    "lg": { "$type": "dimension", "$value": "10px", "$description": "การ์ด, กล่อง dialog" },
+    "pill": { "$type": "dimension", "$value": "999px", "$description": "badge, tag, pagination" }
+  },
+
+  "spacing": {
+    "1": { "$type": "dimension", "$value": "4px" },
+    "2": { "$type": "dimension", "$value": "8px" },
+    "3": { "$type": "dimension", "$value": "12px" },
+    "4": { "$type": "dimension", "$value": "16px" },
+    "5": { "$type": "dimension", "$value": "24px" },
+    "6": { "$type": "dimension", "$value": "32px" }
+  },
+
+  "typography": {
+    "font-family": {
+      "thai": { "$type": "fontFamily", "$value": "Sarabun", "$description": "ฟอนต์หลักของระบบจริง (rcs-rmr-pm ใช้ next/font/google โหลดเป็น --font-sarabun)" },
+      "thai-alt": { "$type": "fontFamily", "$value": "Prompt", "$description": "ฟอนต์สำรองสำหรับระบบที่ยังไม่ได้ผูก Sarabun" },
+      "latin-fallback": { "$type": "fontFamily", "$value": "Inter" }
+    }
+  },
+
+  "shadow": {
+    "sm": { "$type": "shadow", "$value": "0 1px 2px rgba(17, 24, 39, .06)" },
+    "md": { "$type": "shadow", "$value": "0 4px 14px rgba(17, 24, 39, .08)" },
+    "lg": { "$type": "shadow", "$value": "0 12px 32px rgba(17, 24, 39, .12)" }
+  },
+
+  "color-ratio-guideline": {
+    "$description": "สัดส่วนการใช้สีน้ำเงิน:ชมพู ตาม Brand Guideline อย่างเป็นทางการ",
+    "primary": "75%",
+    "accent": "25%",
+    "note": "ใช้เป็นแนวทางเมื่อออกแบบหน้าจอที่มีทั้งสองสีคู่กัน (เช่น brand panel + accent stripe) ไม่ใช่สัดส่วนพิกเซลตายตัวทั้งหน้าจอ"
+  }
+}
