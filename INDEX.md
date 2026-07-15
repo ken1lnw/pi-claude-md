@@ -13,6 +13,17 @@
 
 ---
 
+## 🌍 External Skills (ติดตั้งผ่าน Marketplace — ไม่เก็บไฟล์ใน repo)
+
+| ชุด | มีอะไร | ที่มา | License | ติดตั้ง |
+|-----|--------|-------|---------|---------|
+| [.NET / Akka / Aspire](./docs/external-skills.md) | 35 skills — C#, Akka.NET, Aspire, EF Core, testing, OpenTelemetry | [Aaronontheweb/dotnet-skills](https://github.com/Aaronontheweb/dotnet-skills) | MIT | `/plugin marketplace add Aaronontheweb/dotnet-skills` |
+
+> **ห้าม copy ไฟล์ skill ของทีมอื่นเข้า repo นี้** — repo เป็น public และไม่มี LICENSE
+> ใช้ marketplace แทน แล้วบันทึกไว้ใน [`docs/external-skills.md`](./docs/external-skills.md)
+
+---
+
 ## 🔌 Plugins
 
 | ชื่อ | คำอธิบาย | Author | Status | อัปเดตล่าสุด |
@@ -25,8 +36,9 @@
 
 | ชื่อ | คำอธิบาย |
 |------|----------|
-| [Skills Guide](./skills/README.md) | วิธีสร้าง skill |
+| [Skills Guide](./skills/README.md) | วิธีสร้าง skill (+ 2 เรื่องที่พลาดบ่อยจน skill ไม่โหลด) |
 | [Plugins Guide](./plugins/README.md) | วิธีสร้าง plugin |
+| [External Skills](./docs/external-skills.md) | skills ของทีมอื่น — ติดตั้งผ่าน marketplace แทนการ copy ไฟล์ |
 
 ---
 
@@ -48,7 +60,8 @@
 
 | | จำนวน |
 |-|-------|
-| Skills ทั้งหมด | 2 |
+| Skills ใน repo นี้ | 2 |
+| External skills (marketplace) | 35 |
 | Plugins ทั้งหมด | 1 |
 | Contributors | 2 |
 
