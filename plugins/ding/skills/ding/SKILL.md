@@ -4,7 +4,7 @@ description: Use when the user wants to send a notification or message to DingTa
 metadata:
   author: ken1lnw
   created: 2026-09-03
-  updated: 2026-10-12
+  updated: 2026-11-02
   tags: [notification, automation]
   status: stable
 ---
@@ -38,7 +38,9 @@ python3 "${CLAUDE_PLUGIN_ROOT}/skills/ding/send.py" --check-env
 อ่าน `~/.config/pi-claude-md/ding-channels.json` ก่อน แล้วใช้ AskUserQuestion
 ตั้งตัวเลือกเป็นห้องที่เคยใช้ + ตัวเลือก "ห้องใหม่ (ใส่ UUID เอง)"
 
-- ถ้าไฟล์ยังไม่มี หรือว่างเปล่า → ถามตรง ๆ ว่าขอ **channel UUID** ของห้องปลายทาง
+- ห้อง default คือห้องชื่อ **PI-reports** (ห้องแจ้งเตือน deploy ของทีม) — วางเป็นตัวเลือกแรกพร้อม `(Recommended)` เสมอ
+- ถ้ายังไม่มี PI-reports ในไฟล์ (หรือไฟล์ยังไม่มี) → ตัวเลือกแรกเป็น "PI-reports (ใส่ UUID ครั้งแรก)"
+  ถ้าผู้ใช้เลือก ให้ขอ UUID แล้วหลังส่งสำเร็จบันทึกด้วยชื่อ `PI-reports` เลยโดยไม่ต้องถามชื่อ
 - ถ้าผู้ใช้เลือก "ห้องใหม่" → ขอ UUID แล้วเก็บ
 
 **ต้องถามเสมอ** ต่อให้ข้อความของผู้ใช้ดูเหมือนบอกห้องมาแล้ว หรือเพิ่งส่งห้องนั้นไปเมื่อกี้
@@ -60,6 +62,7 @@ python3 "${CLAUDE_PLUGIN_ROOT}/skills/ding/send.py" --check-env
 ### 2.1 เทมเพลตแจ้ง deploy
 
 ใช้เมื่อผู้ใช้วาง output ของ `./deploy.sh` มา — ดึงค่าจาก log ทุกช่อง **ยกเว้น `โดย`**
+ห้องปลายทางเริ่มต้นคือ **PI-reports** แต่ยังต้องถามยืนยันห้องตามขั้นตอน 1
 
 ```markdown
 ## ✅ Deploy สำเร็จ — <service>
